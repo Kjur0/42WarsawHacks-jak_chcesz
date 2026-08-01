@@ -21,10 +21,12 @@ export default function RootLayout({
   coalitions,
   clusters,
   projects,
+  events,
 }: Readonly<{
   coalitions: React.ReactNode
   clusters: React.ReactNode
   projects: React.ReactNode
+  events: React.ReactNode
 }>) {
   return (
     <html
@@ -43,6 +45,7 @@ export default function RootLayout({
           {coalitions}
           {clusters}
           {projects}
+          {events}
         </ThemeProvider>
       </body>
     </html>

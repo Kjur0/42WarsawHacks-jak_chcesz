@@ -19,6 +19,7 @@ import {
   ItemDescription,
   ItemGroup,
   ItemMedia,
+  ItemSeparator,
   ItemTitle,
 } from "@/components/ui/item"
 import { Skeleton } from "@/components/ui/skeleton"
@@ -50,7 +51,7 @@ async function ProjectItem({ project }: { project: Project }) {
   }
 
   return (
-    <Item className="h-15 w-full corner-none! not-last:border-b not-last:border-b-border">
+    <Item className="h-15 w-full">
       <ItemMedia>
         <AvatarGroup>
           {users.map((user) => (
@@ -104,15 +105,16 @@ export default async function Projects() {
       <CardHeader>
         <CardTitle>Projects validated today</CardTitle>
       </CardHeader>
-      <CardContent>
+      <CardContent className="scroll-fade-y h-full overflow-y-auto">
         <ItemGroup className="gap-0">
           {validatedProjects.length > 0 ? (
-            validatedProjects.map((project) => (
+            validatedProjects.map((project, i) => (
               <Suspense
                 key={project.id}
                 fallback={<Skeleton className="h-15 w-full" />}
               >
                 <ProjectItem project={project} key={project.id} />
+                {i < validatedProjects.length - 1 && <ItemSeparator />}
               </Suspense>
             ))
           ) : (
