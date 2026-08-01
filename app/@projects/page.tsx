@@ -1,6 +1,17 @@
-import { Avatar, AvatarFallback, AvatarGroup } from "@/components/ui/avatar"
+import {
+  Avatar,
+  AvatarFallback,
+  AvatarGroup,
+  AvatarImage,
+} from "@/components/ui/avatar"
 import { Badge } from "@/components/ui/badge"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import {
+  Empty,
+  EmptyHeader,
+  EmptyMedia,
+  EmptyTitle,
+} from "@/components/ui/empty"
 import {
   Item,
   ItemActions,
@@ -10,22 +21,72 @@ import {
   ItemMedia,
   ItemTitle,
 } from "@/components/ui/item"
+import { Skeleton } from "@/components/ui/skeleton"
 import { apiRequest } from "@/lib/api"
-import { isErrorResponse } from "@/types/helpers"
+import { ErrorResponse, isErrorResponse } from "@/types/helpers"
 import { Project } from "@/types/project"
+import { User } from "@/types/user"
+import { RiEmotionSadLine } from "@remixicon/react"
+import { Suspense, use } from "react"
+import { Fragment } from "react/jsx-runtime"
+
+async function ProjectItem({ project }: { project: Project }) {
+  const team = project.teams.pop()
+
+  let users: Array<User> | ErrorResponse = []
+
+  if (team?.users.length != 1) {
+    const userIds = team?.users.map((user) => user.id).join(",")
+
+    users = await apiRequest<Array<User>>("/users", {
+      "filter[id]": userIds ?? "",
+    })
+
+    if (isErrorResponse(users)) {
+      return <Fragment key={project.id} />
+    }
+  } else {
+    users = [project.user]
+  }
+
+  return (
+    <Item className="h-15 w-full corner-none! not-last:border-b not-last:border-b-border">
+      <ItemMedia>
+        <AvatarGroup>
+          {users.map((user) => (
+            <Avatar key={`${project.id}-${user.id}`}>
+              <AvatarImage src={user.image?.link} />
+              <AvatarFallback>
+                {user.first_name?.[0]}
+                {user.last_name?.[0]}
+              </AvatarFallback>
+            </Avatar>
+          ))}
+        </AvatarGroup>
+      </ItemMedia>
+      <ItemContent>
+        <ItemTitle>{project.project.name}</ItemTitle>
+        <ItemDescription>{team?.name}</ItemDescription>
+      </ItemContent>
+      <ItemActions>
+        <Badge>{project.final_mark}</Badge>
+      </ItemActions>
+    </Item>
+  )
+}
 
 export default async function Projects() {
   const projects = await apiRequest<Array<Project>>("/projects_users", {
     "filter[campus]": "67",
     "filter[marked]": "true",
-    "range[marked_at]": `${Temporal.Now.plainDateISO().subtract({weeks:1}).toPlainDateTime().toString()},${Temporal.Now.plainDateISO().add({days:1}).toPlainDateTime().toString()}`,
+    "range[marked_at]": `${Temporal.Now.plainDateISO().toPlainDateTime().toString()}Z,${Temporal.Now.plainDateISO().add({ days: 1 }).toPlainDateTime().toString()}Z`,
   })
 
   if (isErrorResponse(projects)) {
     return (
-      <Card className="h-75 w-75">
+      <Card className="h-full w-100">
         <CardHeader>
-          <CardTitle>Recently finished projects</CardTitle>
+          <CardTitle>Projects validated today</CardTitle>
         </CardHeader>
         <CardContent>
           <p className="text-destructive">
@@ -36,53 +97,34 @@ export default async function Projects() {
     )
   }
 
-  const validatedProjects = projects.filter((project) => project.validated)
+  const validatedProjects = projects.filter((project) => project["validated?"])
 
   return (
-    <Card>
+    <Card className="h-full w-100">
       <CardHeader>
-      <CardTitle>Recently finished projects</CardTitle>
+        <CardTitle>Projects validated today</CardTitle>
       </CardHeader>
       <CardContent>
-        <ItemGroup>
-          <Item>
-            <ItemMedia>
-              <AvatarGroup>
-                <Avatar>
-                  <AvatarFallback>KJ</AvatarFallback>
-                </Avatar>
-                <Avatar>
-                  <AvatarFallback>TW</AvatarFallback>
-                </Avatar>
-              </AvatarGroup>
-            </ItemMedia>
-            <ItemContent>
-              <ItemTitle>42-Warsaw-Hacks</ItemTitle>
-              <ItemDescription>kjurkows, twloskow</ItemDescription>
-            </ItemContent>
-            <ItemActions>
-              <Badge>100</Badge>
-            </ItemActions>
-          </Item>
-          <Item>
-            <ItemMedia>
-              <AvatarGroup>
-                <Avatar>
-                  <AvatarFallback>KJ</AvatarFallback>
-                </Avatar>
-                <Avatar>
-                  <AvatarFallback>TW</AvatarFallback>
-                </Avatar>
-              </AvatarGroup>
-            </ItemMedia>
-            <ItemContent>
-              <ItemTitle>42-Warsaw-Hacks</ItemTitle>
-              <ItemDescription>kjurkows, twloskow</ItemDescription>
-            </ItemContent>
-            <ItemActions>
-              <Badge>100</Badge>
-            </ItemActions>
-          </Item>
+        <ItemGroup className="gap-0">
+          {validatedProjects.length > 0 ? (
+            validatedProjects.map((project) => (
+              <Suspense
+                key={project.id}
+                fallback={<Skeleton className="h-15 w-full" />}
+              >
+                <ProjectItem project={project} key={project.id} />
+              </Suspense>
+            ))
+          ) : (
+            <Empty>
+              <EmptyHeader>
+                <EmptyMedia variant="icon">
+                  <RiEmotionSadLine />
+                </EmptyMedia>
+                <EmptyTitle>No one has finished a project recently.</EmptyTitle>
+              </EmptyHeader>
+            </Empty>
+          )}
         </ItemGroup>
       </CardContent>
     </Card>

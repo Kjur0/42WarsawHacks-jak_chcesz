@@ -116,8 +116,10 @@
     --radius-4xl: calc(var(--radius) * 2.6);
     --shape-sharp: square bevel;
     --shape-soft: round bevel;
+    --shape-none: square;
     --radius-sharp: var(--radius-4xl);
     --radius-soft: var(--radius-xl) var(--radius-lg);
+    --radius-none: 0;
 }
 
 @utility corner-* {
@@ -130,6 +132,8 @@
     @apply border-border outline-ring/50;
     }
   body {
+    width: 1920px;
+    height: 1080px;
     @apply bg-background text-foreground;
     }
   button:not(:disabled), [role="button"]:not(:disabled) {

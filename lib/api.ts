@@ -4,6 +4,15 @@ import { ErrorResponse } from "@/types/helpers"
 
 const API_URL = "https://api.intra.42.fr/v2"
 
+type ApiRequest = {
+  resolve: (value: Response) => void
+  url: URL
+}
+
+const requests: Array<ApiRequest> = []
+
+let requestLoop: ReturnType<typeof setInterval> | null = null
+
 export async function apiRequest<T>(
   path: string,
   params: Record<string, string> = {}
@@ -14,10 +23,26 @@ export async function apiRequest<T>(
     url.searchParams.append(key, value)
   })
 
-  const response = await fetch(url.toString(), {
-    headers: {
-      Authorization: `Bearer ${await getToken()}`,
-    },
+  const response = await new Promise<Response>((resolve) => {
+    requests.push({ resolve, url })
+    if (requestLoop === null) {
+      requestLoop = setInterval(async () => {
+        if (requests.length > 0) {
+          const { resolve, url } = requests.shift()!
+          const response = await fetch(url.toString(), {
+            headers: {
+              Authorization: `Bearer ${await getToken()}`,
+            },
+          })
+          resolve(response)
+        } else {
+          if (requestLoop !== null) {
+            clearInterval(requestLoop)
+            requestLoop = null
+          }
+        }
+      }, 500)
+    }
   })
 
   if (!response.ok) {

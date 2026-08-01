@@ -2,8 +2,6 @@ import { Roboto_Slab, Roboto, JetBrains_Mono } from "next/font/google"
 
 import "./globals.css"
 import { cn } from "@/lib/utils"
-import { Suspense } from "react"
-import { Skeleton } from "@/components/ui/skeleton"
 import { ThemeProvider } from "@/components/theme-provider"
 
 const robotoSlab = Roboto_Slab({
