@@ -4,6 +4,7 @@ import "./globals.css"
 import { cn } from "@/lib/utils"
 import { Suspense } from "react"
 import { Skeleton } from "@/components/ui/skeleton"
+import { ThemeProvider } from "@/components/theme-provider"
 
 const robotoSlab = Roboto_Slab({
   subsets: ["latin"],
@@ -38,12 +39,14 @@ export default function RootLayout({
       )}
     >
       <body className="flex gap-4 p-4">
-        <Suspense fallback={<Skeleton className="h-6 w-1/2 bg-primary" />}>
-          {coalitions}
-        </Suspense>
-        <Suspense fallback={<Skeleton className="h-6 w-1/2 bg-primary" />}>
-          {clusters}
-        </Suspense>
+        <ThemeProvider>
+          <Suspense fallback={<Skeleton className="h-6 w-1/2 bg-primary" />}>
+            {coalitions}
+          </Suspense>
+          <Suspense fallback={<Skeleton className="h-6 w-1/2 bg-primary" />}>
+            {clusters}
+          </Suspense>
+        </ThemeProvider>
       </body>
     </html>
   )
