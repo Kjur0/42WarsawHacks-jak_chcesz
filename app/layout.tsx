@@ -19,10 +19,10 @@ const fontMono = JetBrains_Mono({
 })
 
 export default function RootLayout({
-  children,
+  coalitions,
   clusters,
 }: Readonly<{
-  children: React.ReactNode
+  coalitions: React.ReactNode
   clusters: React.ReactNode
 }>) {
   return (
@@ -37,8 +37,10 @@ export default function RootLayout({
         robotoSlab.variable
       )}
     >
-      <body>
-        {children}
+      <body className="flex gap-4 p-4">
+        <Suspense fallback={<Skeleton className="h-6 w-1/2 bg-primary" />}>
+          {coalitions}
+        </Suspense>
         <Suspense fallback={<Skeleton className="h-6 w-1/2 bg-primary" />}>
           {clusters}
         </Suspense>

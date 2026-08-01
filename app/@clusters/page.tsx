@@ -20,9 +20,9 @@ export default async function Clusters() {
 
   if (isErrorResponse(locations)) {
     return (
-      <Card className="absolute top-2 left-2 h-80 w-120">
+      <Card>
         <CardHeader>
-          <CardTitle>Cluster activity		  </CardTitle>
+          <CardTitle>Cluster activity </CardTitle>
         </CardHeader>
         <CardContent>
           <p className="text-destructive">
@@ -44,17 +44,17 @@ export default async function Clusters() {
   )
 
   return (
-    <Card className="absolute top-2 left-2 h-auto w-auto">
+    <Card>
       <CardHeader>
-        <CardTitle>Cluster activity
-			<Badge variant="outline">
-				{locations.length}
-			</Badge></CardTitle>
+        <CardTitle>
+          Cluster activity
+          <Badge variant="outline">{locations.length}</Badge>
+        </CardTitle>
       </CardHeader>
       <CardContent>
         <Marker variant="separator" className="mt-2 mb-1">
           <MarkerContent>
-              Cluster 1 <Badge>{cluster1.length}</Badge>
+            Cluster 1 <Badge>{cluster1.length}</Badge>
           </MarkerContent>
         </Marker>
         <AvatarGroup>
@@ -76,7 +76,7 @@ export default async function Clusters() {
         </AvatarGroup>
         <Marker variant="separator" className="mt-2 mb-1">
           <MarkerContent>
-              Cluster 2 <Badge>{cluster2.length}</Badge>
+            Cluster 2 <Badge>{cluster2.length}</Badge>
           </MarkerContent>
         </Marker>
         <AvatarGroup>
@@ -98,7 +98,7 @@ export default async function Clusters() {
         </AvatarGroup>
         <Marker variant="separator" className="mt-2 mb-1">
           <MarkerContent>
-              Cluster 3 <Badge>{cluster3.length}</Badge>
+            Cluster 3 <Badge>{cluster3.length}</Badge>
           </MarkerContent>
         </Marker>
         <AvatarGroup>
