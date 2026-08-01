@@ -22,9 +22,11 @@ const fontMono = JetBrains_Mono({
 export default function RootLayout({
   coalitions,
   clusters,
+  projects,
 }: Readonly<{
   coalitions: React.ReactNode
   clusters: React.ReactNode
+  projects: React.ReactNode
 }>) {
   return (
     <html
@@ -40,12 +42,9 @@ export default function RootLayout({
     >
       <body className="flex gap-4 p-4">
         <ThemeProvider>
-          <Suspense fallback={<Skeleton className="h-6 w-1/2 bg-primary" />}>
-            {coalitions}
-          </Suspense>
-          <Suspense fallback={<Skeleton className="h-6 w-1/2 bg-primary" />}>
-            {clusters}
-          </Suspense>
+          {coalitions}
+          {clusters}
+          {projects}
         </ThemeProvider>
       </body>
     </html>

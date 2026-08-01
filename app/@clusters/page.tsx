@@ -65,10 +65,10 @@ export default async function Clusters() {
               </AvatarGroupCount>
             ) : (
               <Avatar key={location?.id} size="lg">
-                <AvatarImage src={location?.user?.image.link} />
+                <AvatarImage src={location?.user?.image?.link} />
                 <AvatarFallback>
-                  {location?.user?.first_name[0]}
-                  {location?.user?.last_name[0]}
+                  {location?.user?.first_name?.[0]}
+                  {location?.user?.last_name?.[0]}
                 </AvatarFallback>
               </Avatar>
             )
@@ -87,10 +87,10 @@ export default async function Clusters() {
               </AvatarGroupCount>
             ) : (
               <Avatar key={location?.id} size="lg">
-                <AvatarImage src={location?.user?.image.link} />
+                <AvatarImage src={location?.user?.image?.link} />
                 <AvatarFallback>
-                  {location?.user?.first_name[0]}
-                  {location?.user?.last_name[0]}
+                  {location?.user?.first_name?.[0]}
+                  {location?.user?.last_name?.[0]}
                 </AvatarFallback>
               </Avatar>
             )
@@ -109,10 +109,10 @@ export default async function Clusters() {
               </AvatarGroupCount>
             ) : (
               <Avatar key={location?.id} size="lg">
-                <AvatarImage src={location?.user?.image.link} />
+                <AvatarImage src={location?.user?.image?.link} />
                 <AvatarFallback>
-                  {location?.user?.first_name[0]}
-                  {location?.user?.last_name[0]}
+                  {location?.user?.first_name?.[0]}
+                  {location?.user?.last_name?.[0]}
                 </AvatarFallback>
               </Avatar>
             )
