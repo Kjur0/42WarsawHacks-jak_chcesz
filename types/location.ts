@@ -11,5 +11,5 @@ export type Location = {
   post?: Nullable<string>
   host?: Nullable<string>
   campus_id: number
-  user: User
+  user?: User
 }
