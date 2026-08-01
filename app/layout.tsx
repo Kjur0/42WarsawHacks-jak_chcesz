@@ -2,6 +2,8 @@ import { Roboto_Slab, Roboto, JetBrains_Mono } from "next/font/google"
 
 import "./globals.css"
 import { cn } from "@/lib/utils"
+import { Suspense } from "react"
+import { Skeleton } from "@/components/ui/skeleton"
 
 const robotoSlab = Roboto_Slab({
   subsets: ["latin"],
@@ -18,8 +20,10 @@ const fontMono = JetBrains_Mono({
 
 export default function RootLayout({
   children,
+  coalitions,
 }: Readonly<{
   children: React.ReactNode
+  coalitions: React.ReactNode
 }>) {
   return (
     <html
@@ -33,7 +37,12 @@ export default function RootLayout({
         robotoSlab.variable
       )}
     >
-      <body>{children}</body>
+      <body>
+        {children}
+        <Suspense fallback={<Skeleton className="h-6 w-1/2 bg-primary" />}>
+          {coalitions}
+        </Suspense>
+      </body>
     </html>
   )
 }

@@ -51,14 +51,14 @@ async function getToken() {
 
   const response = await fetch(`${API_URL}/oauth/token`, {
     method: "POST",
-    body: data
+    body: data,
   })
 
   if (!response.ok) {
     throw new Error(`Token request failed with status ${response.status}`)
   }
 
-  const tokenResponse = await response.json() as TokenResponse
+  const tokenResponse = (await response.json()) as TokenResponse
 
   const expiresAt = tokenResponse.created_at + tokenResponse.expires_in * 1000
 
