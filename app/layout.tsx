@@ -1,7 +1,6 @@
 import { Roboto_Slab, Roboto, JetBrains_Mono } from "next/font/google"
 
 import "./globals.css"
-import { ThemeProvider } from "@/components/theme-provider"
 import { cn } from "@/lib/utils"
 
 const robotoSlab = Roboto_Slab({
@@ -35,7 +34,7 @@ export default function RootLayout({
       )}
     >
       <body>
-        <ThemeProvider>{children}</ThemeProvider>
+        {children}
       </body>
     </html>
   )
