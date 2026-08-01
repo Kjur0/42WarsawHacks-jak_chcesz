@@ -1,3 +1,4 @@
+import { Skeleton } from "@/components/ui/skeleton"
 
 export default function Page() {
   return (
@@ -6,6 +7,7 @@ export default function Page() {
         <div>
           <h1 className="font-medium">Project ready!</h1>
           <p>You may now add components and start building.</p>
+          <Skeleton className="mt-4 h-6 w-1/2" />
         </div>
       </div>
     </div>

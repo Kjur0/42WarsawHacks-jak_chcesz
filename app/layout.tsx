@@ -33,9 +33,7 @@ export default function RootLayout({
         robotoSlab.variable
       )}
     >
-      <body>
-        {children}
-      </body>
+      <body>{children}</body>
     </html>
   )
 }
