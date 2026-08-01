@@ -1,11 +1,13 @@
 "use server"
 
+import { ErrorResponse } from "@/types/helpers"
+
 const API_URL = "https://api.intra.42.fr/v2"
 
-export async function request<T>(
+export async function apiRequest<T>(
   path: string,
   params: Record<string, string> = {}
-): Promise<T> {
+): Promise<T | ErrorResponse> {
   const url = new URL(`${API_URL}${path}`)
 
   Object.entries(params).forEach(([key, value]) => {
@@ -19,10 +21,10 @@ export async function request<T>(
   })
 
   if (!response.ok) {
-    throw new Error(`API request failed with status ${response.status}`)
+    return { error: response.status, message: response.statusText }
   }
 
-  return response.json() as T
+  return (await response.json()) as T
 }
 
 type TokenResponse = {
@@ -33,10 +35,10 @@ type TokenResponse = {
   created_at: number
 }
 
-let tokenCache: { token: string; expiresAt: number } | null = null
+let tokenCache: { expired: boolean; token?: string } = { expired: true }
 
 async function getToken() {
-  if (tokenCache && tokenCache.expiresAt > Date.now() / 1000) {
+  if (!tokenCache.expired) {
     return tokenCache.token
   }
 
@@ -55,14 +57,19 @@ async function getToken() {
   })
 
   if (!response.ok) {
-    throw new Error(`Token request failed with status ${response.status}`)
+    return ""
   }
 
   const tokenResponse = (await response.json()) as TokenResponse
 
-  const expiresAt = tokenResponse.created_at + tokenResponse.expires_in * 1000
+  tokenCache = { token: tokenResponse.access_token, expired: false }
 
-  tokenCache = { token: tokenResponse.access_token, expiresAt }
+  setTimeout(
+    () => {
+      tokenCache.expired = true
+    },
+    tokenResponse.expires_in * 1000 - 15000
+  ) // Refresh 15 seconds before expiration
 
   return tokenCache.token
 }

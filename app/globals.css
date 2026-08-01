@@ -114,11 +114,15 @@
     --radius-2xl: calc(var(--radius) * 1.8);
     --radius-3xl: calc(var(--radius) * 2.2);
     --radius-4xl: calc(var(--radius) * 2.6);
+    --shape-sharp: square bevel;
+    --shape-soft: round bevel;
+    --radius-sharp: var(--radius-4xl);
+    --radius-soft: var(--radius-xl) var(--radius-lg);
 }
 
-@utility corner {
-  corner-shape: square bevel;
-  border-radius: var(--radius-4xl);
+@utility corner-* {
+  corner-shape: --value(--shape-*);
+  border-radius: --value(--radius-*);
 }
 
 @layer base {
