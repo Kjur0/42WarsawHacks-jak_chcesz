@@ -4,7 +4,7 @@ import { TDateISO, Nullable } from "./helpers"
 export type Location = {
   id: number
   begin_at: TDateISO
-  end_at: TDateISO
+  end_at: Nullable<TDateISO>
   primary: boolean
   floor?: Nullable<number>
   row?: Nullable<number>

@@ -13,3 +13,17 @@ export type TDateISOTime = `${THours}:${TMinutes}:${TSeconds}.${TMilliseconds}`
 export type TDateISO = `${TDateISODate}T${TDateISOTime}Z`
 
 export type Nullable<T> = T | null
+
+export type ErrorResponse = {
+  error: number
+  message: string
+}
+
+export function isErrorResponse(response: unknown): response is ErrorResponse {
+  return (
+    typeof response === "object" &&
+    response !== null &&
+    "error" in response &&
+    "message" in response
+  )
+}
