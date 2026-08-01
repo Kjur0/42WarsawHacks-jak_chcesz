@@ -20,10 +20,10 @@ const fontMono = JetBrains_Mono({
 
 export default function RootLayout({
   children,
-  coalitions,
+  clusters,
 }: Readonly<{
   children: React.ReactNode
-  coalitions: React.ReactNode
+  clusters: React.ReactNode
 }>) {
   return (
     <html
@@ -40,7 +40,7 @@ export default function RootLayout({
       <body>
         {children}
         <Suspense fallback={<Skeleton className="h-6 w-1/2 bg-primary" />}>
-          {coalitions}
+          {clusters}
         </Suspense>
       </body>
     </html>

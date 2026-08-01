@@ -2,7 +2,7 @@
 
 const API_URL = "https://api.intra.42.fr/v2"
 
-export async function request<T>(
+export async function apiRequest<T>(
   path: string,
   params: Record<string, string> = {}
 ): Promise<T> {
@@ -19,6 +19,7 @@ export async function request<T>(
   })
 
   if (!response.ok) {
+    console.error(response)
     throw new Error(`API request failed with status ${response.status}`)
   }
 

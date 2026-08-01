@@ -1,5 +1,3 @@
-import { Skeleton } from "@/components/ui/skeleton"
-
 export default async function Page() {
   await new Promise((resolve) => setTimeout(resolve, 100000))
 
