@@ -17,13 +17,13 @@ export default async function Page() {
 
   if (isErrorResponse(coalitions)) {
     return (
-      <Card className="w-64">
+      <Card className="h-75 w-75">
         <CardHeader>
           <CardTitle>Coalitions</CardTitle>
         </CardHeader>
         <CardContent>
-          <p className="text-sm text-muted-foreground">
-            Failed to load coalitions.
+          <p className="text-destructive">
+            Error occurred while fetching coalition data.
           </p>
         </CardContent>
       </Card>
@@ -31,13 +31,13 @@ export default async function Page() {
   }
 
   return (
-    <Card className="w-64">
+    <Card className="h-75 w-75">
       <CardHeader>
         <CardTitle>Coalitions</CardTitle>
       </CardHeader>
       <CardContent>
         <ItemGroup>
-          {coalitions.map((coalition) => (
+          {coalitions.sort((a, b) => b.score - a.score).map((coalition) => (
             <Item
               key={coalition.id}
               variant="outline"

@@ -20,7 +20,7 @@ export default async function Clusters() {
 
   if (isErrorResponse(locations)) {
     return (
-      <Card>
+      <Card className="h-75 w-125">
         <CardHeader>
           <CardTitle>Cluster activity </CardTitle>
         </CardHeader>
@@ -44,7 +44,7 @@ export default async function Clusters() {
   )
 
   return (
-    <Card>
+    <Card className="h-75 w-125">
       <CardHeader>
         <CardTitle>
           Cluster activity
