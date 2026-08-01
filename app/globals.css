@@ -116,6 +116,11 @@
     --radius-4xl: calc(var(--radius) * 2.6);
 }
 
+@utility corner {
+  corner-shape: square bevel;
+  border-radius: var(--radius-4xl);
+}
+
 @layer base {
   * {
     @apply border-border outline-ring/50;
