@@ -28,7 +28,7 @@ import { ErrorResponse, isErrorResponse } from "@/types/helpers"
 import { Project } from "@/types/project"
 import { User } from "@/types/user"
 import { RiEmotionSadLine } from "@remixicon/react"
-import { Suspense, use } from "react"
+import { Suspense } from "react"
 import { Fragment } from "react/jsx-runtime"
 
 async function ProjectItem({ project }: { project: Project }) {
