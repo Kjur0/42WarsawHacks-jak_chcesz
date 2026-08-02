@@ -67,4 +67,12 @@ To update the data a simple browser refresh is enough. The system will fetch the
 
 ## Data quirks
 
+The API request can return some fields as `null` for example `user` in `locations`. The possibility of that happening is assessed and checks that either ignore or do a specific action in such cases are implemented.
+
+There is no possibility to filter users in `locations` API requests in a way that would return all sessions that started today and sessions from yesterday that are still ongoing, adding a need to filter for that manually.
+
+There is a page[size] limit of `100` making a need for multiple calls for biger datasets. It is implemented using `apiPagedRequest<T>(path: string,params: Record<string, string> = {}): Promise<Array<T> | ErrorResponse>`, that returnes all pages from the requested endpoint.
+
 ## Error handling
+
+The possible errors in the response from an API requests are checked using a `isErrorResponse(response: unknown): response is ErrorResponse` function. This function is called after each API request and when it returns `true` an error message is displayed.
