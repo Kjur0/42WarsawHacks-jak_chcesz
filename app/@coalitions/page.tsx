@@ -37,32 +37,34 @@ export default async function Page() {
       </CardHeader>
       <CardContent>
         <ItemGroup>
-          {coalitions.sort((a, b) => b.score - a.score).map((coalition) => (
-            <Item
-              key={coalition.id}
-              variant="outline"
-              style={{ backgroundColor: coalition.color }}
-              render={
-                <a href="#">
-                  <ItemMedia variant="image">
-                    <Image
-                      width={32}
-                      height={32}
-                      src={coalition.image_url}
-                      alt={coalition.name}
-                      className="object-cover brightness-0 invert"
-                    />
-                  </ItemMedia>
-                  <ItemTitle>{coalition.name}</ItemTitle>
-                  <ItemContent className="ml-auto flex-none text-center">
-                    <Badge variant="outline">
-                      {coalition.score.toLocaleString()}
-                    </Badge>
-                  </ItemContent>
-                </a>
-              }
-            />
-          ))}
+          {coalitions
+            .sort((a, b) => b.score - a.score)
+            .map((coalition) => (
+              <Item
+                key={coalition.id}
+                variant="outline"
+                style={{ backgroundColor: coalition.color }}
+                render={
+                  <a href="#">
+                    <ItemMedia variant="image">
+                      <Image
+                        width={32}
+                        height={32}
+                        src={coalition.image_url}
+                        alt={coalition.name}
+                        className="object-cover brightness-0 invert"
+                      />
+                    </ItemMedia>
+                    <ItemTitle>{coalition.name}</ItemTitle>
+                    <ItemContent className="ml-auto flex-none text-center">
+                      <Badge variant="outline">
+                        {coalition.score.toLocaleString()}
+                      </Badge>
+                    </ItemContent>
+                  </a>
+                }
+              />
+            ))}
         </ItemGroup>
       </CardContent>
     </Card>

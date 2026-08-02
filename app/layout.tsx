@@ -22,9 +22,11 @@ const fontMono = JetBrains_Mono({
 export default function RootLayout({
   coalitions,
   clusters,
+  leaderboards,
 }: Readonly<{
   coalitions: React.ReactNode
   clusters: React.ReactNode
+  leaderboards: React.ReactNode
 }>) {
   return (
     <html
@@ -45,6 +47,9 @@ export default function RootLayout({
           </Suspense>
           <Suspense fallback={<Skeleton className="h-6 w-1/2 bg-primary" />}>
             {clusters}
+          </Suspense>
+          <Suspense fallback={<Skeleton className="h-6 w-1/2 bg-primary" />}>
+            {leaderboards}
           </Suspense>
         </ThemeProvider>
       </body>
