@@ -13,12 +13,13 @@ import { CAMPUS_ID } from "@/lib/consts"
 import { isErrorResponse } from "@/types/helpers"
 import type { Location } from "@/types/location"
 
+export const dynamic = "force-dynamic"
+
 export default async function Clusters() {
   const locations = await apiPagedRequest<Location>(
     `/campus/${CAMPUS_ID}/locations`,
     {
-      "filter[active]": "true",
-      "page[size]": "100",
+      "filter[active]": "true"
     }
   )
 

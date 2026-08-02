@@ -19,6 +19,8 @@ import {
 } from "@/components/ui/item"
 import { CAMPUS_ID, startToday } from "@/lib/consts"
 
+export const dynamic = "force-dynamic"
+
 export default async function Events() {
   const twoWeeks = startToday().add({ weeks: 2 })
   const events = await apiRequest<Array<Event>>(`/campus/${CAMPUS_ID}/events`, {

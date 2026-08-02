@@ -32,6 +32,8 @@ import { RiEmotionSadLine } from "@remixicon/react"
 import { Suspense } from "react"
 import { Fragment } from "react/jsx-runtime"
 
+export const dynamic = "force-dynamic"
+
 async function ProjectItem({ project }: { project: Project }) {
   const team = project.teams.pop()
 

@@ -12,6 +12,8 @@ import { Coalition } from "@/types/coalition"
 import { isErrorResponse } from "@/types/helpers"
 import Image from "next/image"
 
+export const dynamic = "force-dynamic"
+
 export default async function Coalitions() {
   const coalitions = await apiRequest<Array<Coalition>>("/blocs/129/coalitions")
 
