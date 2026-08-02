@@ -105,7 +105,7 @@ export default async function Projects() {
       <CardHeader>
         <CardTitle>Projects validated today</CardTitle>
       </CardHeader>
-      <CardContent className="scroll-fade-y h-full overflow-y-auto">
+      <CardContent className="scroll-fade-y h-full overflow-y-auto scrollbar-none">
         <ItemGroup className="gap-0">
           {validatedProjects.length > 0 ? (
             validatedProjects.map((project, i) => (
