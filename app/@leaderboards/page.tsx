@@ -14,6 +14,8 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { now, startToday, endToday, CAMPUS_ID } from "@/lib/consts"
 import { User } from "@/types/user"
 
+export const dynamic = "force-dynamic"
+
 export default async function Page() {
   const locations = await apiPagedRequest<Location>(
     `/campus/${CAMPUS_ID}/locations`,
