@@ -22,11 +22,13 @@ export default function RootLayout({
   clusters,
   projects,
   events,
+  leaderboards,
 }: Readonly<{
   coalitions: React.ReactNode
   clusters: React.ReactNode
   projects: React.ReactNode
   events: React.ReactNode
+  leaderboards: React.ReactNode
 }>) {
   return (
     <html
@@ -46,6 +48,7 @@ export default function RootLayout({
           {clusters}
           {projects}
           {events}
+          {leaderboards}
         </ThemeProvider>
       </body>
     </html>

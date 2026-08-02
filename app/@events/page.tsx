@@ -44,7 +44,7 @@ export default async function Events() {
       <CardHeader>
         <CardTitle>Upcoming events</CardTitle>
       </CardHeader>
-      <CardContent className="scroll-fade-y h-full overflow-y-auto scrollbar-none">
+      <CardContent className="h-full scroll-fade-y scrollbar-none overflow-y-auto">
         {events.length === 0 ? (
           <Empty>
             <EmptyHeader>

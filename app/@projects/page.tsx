@@ -28,7 +28,7 @@ import { ErrorResponse, isErrorResponse } from "@/types/helpers"
 import { Project } from "@/types/project"
 import { User } from "@/types/user"
 import { RiEmotionSadLine } from "@remixicon/react"
-import { Suspense, use } from "react"
+import { Suspense } from "react"
 import { Fragment } from "react/jsx-runtime"
 
 async function ProjectItem({ project }: { project: Project }) {
@@ -105,7 +105,7 @@ export default async function Projects() {
       <CardHeader>
         <CardTitle>Projects validated today</CardTitle>
       </CardHeader>
-      <CardContent className="scroll-fade-y h-full overflow-y-auto scrollbar-none">
+      <CardContent className="h-full scroll-fade-y scrollbar-none overflow-y-auto">
         <ItemGroup className="gap-0">
           {validatedProjects.length > 0 ? (
             validatedProjects.map((project, i) => (
