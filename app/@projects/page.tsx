@@ -104,7 +104,7 @@ export default async function Projects() {
   return (
     <Card className="h-full w-100">
       <CardHeader>
-        <CardTitle>Projects validated today</CardTitle>
+        <CardTitle>Projects validated today <Badge variant="outline">{validatedProjects.length}</Badge></CardTitle>
       </CardHeader>
       <CardContent className="h-full scroll-fade-y scrollbar-none overflow-y-auto">
         <ItemGroup className="gap-0">
