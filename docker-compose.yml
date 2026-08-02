@@ -1,0 +1,8 @@
+name: 42warsawhacks-jak_chcesz
+
+services:
+  app:
+    build: .
+    ports:
+      - "3000:3000"
+    env_file: .env
