@@ -17,10 +17,12 @@ import {
   ItemGroup,
   ItemTitle,
 } from "@/components/ui/item"
+import { CAMPUS_ID, startToday } from "@/lib/consts"
 
 export default async function Events() {
-  const events = await apiRequest<Array<Event>>("/campus/67/events", {
-    "range[begin_at]": `${Temporal.Now.plainDateISO().toPlainDateTime().toString()}Z,${Temporal.Now.plainDateISO().add({ weeks: 2 }).toPlainDateTime().toString()}Z`,
+  const twoWeeks = startToday().add({ weeks: 2 })
+  const events = await apiRequest<Array<Event>>(`/campus/${CAMPUS_ID}/events`, {
+    "range[begin_at]": `${startToday().toInstant().toString({ smallestUnit: "second" })},${twoWeeks.toInstant().toString({ smallestUnit: "second" })}`,
     sort: "begin_at",
   })
 
