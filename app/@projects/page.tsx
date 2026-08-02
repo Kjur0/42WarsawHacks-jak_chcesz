@@ -24,12 +24,15 @@ import {
 } from "@/components/ui/item"
 import { Skeleton } from "@/components/ui/skeleton"
 import { apiRequest } from "@/lib/api"
+import { CAMPUS_ID, startToday, endToday } from "@/lib/consts"
 import { ErrorResponse, isErrorResponse } from "@/types/helpers"
 import { Project } from "@/types/project"
 import { User } from "@/types/user"
 import { RiEmotionSadLine } from "@remixicon/react"
 import { Suspense } from "react"
 import { Fragment } from "react/jsx-runtime"
+
+export const dynamic = "force-dynamic"
 
 async function ProjectItem({ project }: { project: Project }) {
   const team = project.teams.pop()
@@ -78,9 +81,9 @@ async function ProjectItem({ project }: { project: Project }) {
 
 export default async function Projects() {
   const projects = await apiRequest<Array<Project>>("/projects_users", {
-    "filter[campus]": "67",
+    "filter[campus]": CAMPUS_ID.toString(),
     "filter[marked]": "true",
-    "range[marked_at]": `${Temporal.Now.plainDateISO().toPlainDateTime().toString()}Z,${Temporal.Now.plainDateISO().add({ days: 1 }).toPlainDateTime().toString()}Z`,
+    "range[marked_at]": `${startToday().toInstant().toString({ smallestUnit: "minute" })},${endToday().toInstant().toString({ smallestUnit: "minute" })}`,
   })
 
   if (isErrorResponse(projects)) {
@@ -105,7 +108,7 @@ export default async function Projects() {
       <CardHeader>
         <CardTitle>Projects validated today</CardTitle>
       </CardHeader>
-      <CardContent className="scroll-fade-y h-full overflow-y-auto scrollbar-none">
+      <CardContent className="h-full scroll-fade-y scrollbar-none overflow-y-auto">
         <ItemGroup className="gap-0">
           {validatedProjects.length > 0 ? (
             validatedProjects.map((project, i) => (

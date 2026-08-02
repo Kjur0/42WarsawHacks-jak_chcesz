@@ -8,15 +8,20 @@ import {
 import { Badge } from "@/components/ui/badge"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Marker, MarkerContent } from "@/components/ui/marker"
-import { apiRequest } from "@/lib/api"
+import { apiPagedRequest } from "@/lib/api"
+import { CAMPUS_ID } from "@/lib/consts"
 import { isErrorResponse } from "@/types/helpers"
 import type { Location } from "@/types/location"
 
+export const dynamic = "force-dynamic"
+
 export default async function Clusters() {
-  const locations = await apiRequest<Array<Location>>(`/campus/67/locations`, {
-    "filter[active]": "true",
-    "page[size]": "100",
-  })
+  const locations = await apiPagedRequest<Location>(
+    `/campus/${CAMPUS_ID}/locations`,
+    {
+      "filter[active]": "true"
+    }
+  )
 
   if (isErrorResponse(locations)) {
     return (

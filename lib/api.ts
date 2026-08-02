@@ -1,6 +1,6 @@
 "use server"
 
-import { ErrorResponse } from "@/types/helpers"
+import { ErrorResponse, isErrorResponse } from "@/types/helpers"
 
 const API_URL = "https://api.intra.42.fr/v2"
 
@@ -27,9 +27,21 @@ export async function apiRequest<T>(
     requests.push({ resolve, url })
     if (requestLoop === null) {
       requestLoop = setInterval(async () => {
-        if (requests.length > 0) {
+        if (requests.length >= 2) {
+          const requestPair = requests.splice(0, 2)!
+          requestPair.forEach(async ({ resolve, url }) => {
+
+            const response = await fetch(url, {
+              headers: {
+                Authorization: `Bearer ${await getToken()}`,
+              },
+            })
+            resolve(response)
+          })
+        } else if (requests.length === 1) {
           const { resolve, url } = requests.shift()!
-          const response = await fetch(url.toString(), {
+
+          const response = await fetch(url, {
             headers: {
               Authorization: `Bearer ${await getToken()}`,
             },
@@ -41,15 +53,45 @@ export async function apiRequest<T>(
             requestLoop = null
           }
         }
-      }, 500)
+      }, 1000)
     }
   })
 
   if (!response.ok) {
+    console.warn(
+      `API request failed: ${response.status} ${response.statusText}`,
+      response
+    )
     return { error: response.status, message: response.statusText }
   }
 
   return (await response.json()) as T
+}
+
+export async function apiPagedRequest<T>(
+  path: string,
+  params: Record<string, string> = {}
+): Promise<Array<T> | ErrorResponse> {
+  let lastResult: number = 0
+  const results: Array<T> = []
+  let page = 1
+
+  do {
+    const result = await apiRequest<Array<T>>(path, {
+      ...params,
+      "page[size]": "100",
+      "page[number]": page.toString(),
+    })
+
+    if (isErrorResponse(result)) {
+      return result
+    }
+    lastResult = result.length
+    results.push(...result)
+    page++
+  } while (lastResult > 0)
+
+  return results
 }
 
 type TokenResponse = {
